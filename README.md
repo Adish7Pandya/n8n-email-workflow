@@ -10,7 +10,7 @@ This n8n workflow reads contact data from a Google Sheet and sends **personalize
 4. **Send Email Node** – Sends a customized email to each user using template variables.
 
 ## 📸 Workflow Screenshot
-![Workflow Screenshot](screenshot.png)
+![Workflow Screenshot](Screenshot.png)
 
 ## ✉️ Example Email Output
 
