@@ -1,0 +1,100 @@
+{
+  "name": "Send Custom Emails from Google Sheets",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 9 * * *"
+      },
+      "id": "1",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "sheetId": "1uKPGf-dZyEA0kbkByrGG0Kl9BDJRvOhWi1W7yHgZr4Y",
+        "range": "Sheet1!A:D",
+        "valueRenderMode": "UNFORMATTED_VALUE",
+        "dataStartRow": 2
+      },
+      "id": "2",
+      "name": "Read Contacts from Google Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        440,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "your-google-oauth-id",
+          "name": "Google Sheets OAuth2 Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 1
+      },
+      "id": "3",
+      "name": "SplitInBatches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [
+        660,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "",
+        "toEmail": "={{$json[\"Email\"]}}",
+        "subject": "={{\"Welcome to \" + $json[\"Company\"] + \", \" + $json[\"Name\"] + \"!\"}}",
+        "text": "={{\"Hi \" + $json[\"Name\"] + \",\\n\\nWe're excited to have you on board at \" + $json[\"Company\"] + \".\\n\\n\" + $json[\"CustomMessage\"] + \"\\n\\nBest regards,\\nGigFloww\"}}"
+      },
+      "id": "4",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 1,
+      "position": [
+        880,
+        300
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "your-smtp-id",
+          "name": "SMTP Account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          "2"
+        ]
+      ]
+    },
+    "Read Contacts from Google Sheet": {
+      "main": [
+        [
+          "3"
+        ]
+      ]
+    },
+    "SplitInBatches": {
+      "main": [
+        [
+          "4"
+        ]
+      ]
+    }
+  },
+  "active": false
+}
