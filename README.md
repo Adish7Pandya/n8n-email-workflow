@@ -9,17 +9,23 @@ This n8n workflow reads contact data from a Google Sheet and sends **personalize
 3. **SplitInBatches Node** – Loops through each row (contact).
 4. **Send Email Node** – Sends a customized email to each user using template variables.
 
-## 📸 Screenshot
+## 📸 Workflow Screenshot
+![Workflow Screenshot](screenshot.png)
 
-![Workflow Screenshot](Screenshot (2).png)
-
-
-### ✉️ Email Example
+## ✉️ Example Email Output
 
 **Subject:**  
-`Welcome to {{ $json["Company"] }}, {{ $json["Name"] }}!`
+Welcome to `{{ $json["Company"] }}`, `{{ $json["Name"] }}`!
 
 **Body:**  
+Hi `{{ $json["Name"] }}` 👋,
+
+We're excited to welcome you to **{{ $json["Company"] }}**!  
+Let us know if you need any help getting started.
+
+Cheers,  
+The Team
+ 
 
 ## 📄 Submission Items
 
